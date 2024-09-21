@@ -87,12 +87,16 @@ def parsing(t_path: str, dest: str) -> None:
                 flag = True
                 for j in range(2, table_width + 1):
                     ij_tableValue = ws_table.cell(row=i, column=j).value
-                    ws_out.cell(row=i_out, column=j + 2).value = ij_tableValue
 
-                    # Если информация о паре содержится, то красим ячейку:
-                    if ij_tableValue is not None and ij_tableValue not in ("", " ", "\n", " "):
-                        flag = False
-                        ws_out.cell(row=i_out, column=j + 2).fill = not_empty_fill_color
+                    # Если информация о паре содержится, то удаляем лишние пробелы и красим ячейку:
+                    if ij_tableValue is not None:
+                        ij_tableValue = " ".join(ij_tableValue.split())
+
+                        if ij_tableValue not in ("", " ", "\n", " "):
+                            flag = False
+                            ws_out.cell(row=i_out, column=j + 2).fill = not_empty_fill_color
+
+                    ws_out.cell(row=i_out, column=j + 2).value = ij_tableValue
 
                 if not flag:
                     i_out += 1

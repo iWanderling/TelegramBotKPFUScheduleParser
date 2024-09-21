@@ -5,7 +5,10 @@ from functions.parser import parsing
 from urllib import request
 from constant import link
 from time import sleep
+import logging
 
+
+logger = logging.getLogger(__name__)
 
 def do_script() -> None:
 
@@ -19,6 +22,11 @@ def do_script() -> None:
 
 
 while True:
-    do_script()
-    print('Table updated successfully...')
-    sleep(30)
+    try:
+        logger.warning("Starting to do script")
+        do_script()
+        logger.warning("Table updates successfully...")
+    except Exception as e:
+        logger.warning(f"ERROR: {e}")
+
+    sleep(28801)
