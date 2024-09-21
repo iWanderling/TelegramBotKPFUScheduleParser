@@ -8,6 +8,30 @@ def fill_color(code: str) -> openpyxl.styles.PatternFill:
     return openpyxl.styles.PatternFill(start_color=code, fill_type='solid')
 
 
+# Форматирование строки, преобразование в лаконичный вид:
+def formating_string(s: str) -> str:
+    text = list()
+    links = list()
+
+    for rlt in removedLinkText:
+        s = s.replace(rlt, " ")
+        s = s.replace(rlt.lower(), " ")
+
+    s = s.replace("..", ".")
+    words = s.split()
+
+    for w in words:
+        if "http" in w:
+            links.append(w)
+        else:
+            text.append(w)
+
+    text = " ".join(text)
+    links = "\n".join(links)
+
+    return f"⏹ ⏹ ⏹\n\n💻 Описание пары:\n\n{text}\n\n📚 Ссылки на трансляцию / материалы:\n\n{links}"
+
+
 # Функция-парсер.
 # Строка t_path - путь к таблице;
 # Строка dest - путь, по которому нужно сохранить обновлённую таблицу.
@@ -89,13 +113,13 @@ def parsing(t_path: str, dest: str) -> None:
                     ij_tableValue = ws_table.cell(row=i, column=j).value
 
                     # Если информация о паре содержится, то удаляем лишние пробелы и красим ячейку:
-                    if ij_tableValue is not None:
-                        ij_tableValue = " ".join(ij_tableValue.split())
+                    if ij_tableValue is not None and (ij_tableValue not in ("", " ", "\n", " ")):
+                        ij_tableValue = formating_string(" ".join(ij_tableValue.split()))
 
-                        if ij_tableValue not in ("", " ", "\n", " "):
-                            flag = False
-                            ws_out.cell(row=i_out, column=j + 2).fill = not_empty_fill_color
+                        flag = False
+                        ws_out.cell(row=i_out, column=j + 2).fill = not_empty_fill_color
 
+                    # Заполняем ячейку:
                     ws_out.cell(row=i_out, column=j + 2).value = ij_tableValue
 
                 if not flag:
