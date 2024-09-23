@@ -1,4 +1,5 @@
 """ Скрипт, реализующий парсинг таблицы с расписанием и перенос обновлённой таблицы в Google Sheets """
+from functions.creds_creator import creds_create
 from functions.separator import separate_merges
 from functions.gsheets import gs_transfer
 from functions.parser import parsing
@@ -18,6 +19,7 @@ def do_script() -> None:
     # Программа реализуется за счёт последовательной работы трёх функций:
     separate_merges("tables/RawTable.xlsx", "tables/PreparedTable.xlsx")
     parsing("tables/PreparedTable.xlsx", "tables/CookedTable.xlsx")
+    creds_create()
     gs_transfer("tables/CookedTable.xlsx")
 
 
