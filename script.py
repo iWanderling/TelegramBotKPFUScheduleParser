@@ -31,4 +31,4 @@ while True:
     except Exception as e:
         logger.warning(f"ERROR: {e}")
 
-    sleep(28801)
+    sleep(1800)
