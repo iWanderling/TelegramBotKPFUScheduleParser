@@ -16,7 +16,7 @@ def do_script() -> None:
     # Загрузка таблицы:
     request.urlretrieve(link, "tables/RawTable.xlsx")
 
-    # Программа реализуется за счёт последовательной работы трёх функций:
+    # Программа реализуется за счёт последовательной работы четырёх функций:
     separate_merges("tables/RawTable.xlsx", "tables/PreparedTable.xlsx")
     parsing("tables/PreparedTable.xlsx", "tables/CookedTable.xlsx")
     creds_create()
@@ -31,4 +31,4 @@ while True:
     except Exception as e:
         logger.warning(f"ERROR: {e}")
 
-    sleep(1800)
+    sleep(600)
