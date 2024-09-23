@@ -6,6 +6,7 @@ from functions.parser import parsing
 from dotenv import load_dotenv
 from urllib import request
 from constant import link
+from requests import get
 from flask import Flask
 from time import sleep
 import threading
@@ -21,7 +22,7 @@ creds_create()
 
 # Функция, запускающая приложение Flask:
 def run_application():
-    app.run(port=os.getenv("PORT"))
+    app.run(host="127.0.0.1", port=os.getenv("PORT"))
 
 
 @app.route('/')
@@ -46,10 +47,12 @@ if __name__ == "__main__":
 
     while True:
         try:
-            logger.warning("Starting to do script")
+            logger.warning("Starting to do script...")
             do_script()
-            logger.warning("Table updates successfully...")
+            logger.warning("✔️ Table updates successfully... ✔️")
+            req = get("https://telegrambotkpfuscheduleparser.onrender.com")
+            logger.warning("✔️ Request has done... ✔️")
         except Exception as e:
-            logger.warning(f"ERROR: {e}")
+            logger.warning(f"❌ ERROR: {e} ❌")
 
         sleep(600)
