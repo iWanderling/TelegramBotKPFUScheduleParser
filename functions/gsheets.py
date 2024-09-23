@@ -1,4 +1,4 @@
-""" Копирование таблицы .xlsx в таблицу Google Sheets """
+""" Копирование таблицы формата XLSX в таблицу Google Sheets """
 import gspread
 import openpyxl
 

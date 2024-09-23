@@ -13,7 +13,7 @@ def formating_string(s: str) -> str:
     text = list()
     links = list()
 
-    for rlt in removedLinkText:
+    for rlt in REMOVEDLINKTEXT:
         s = s.replace(rlt, " ")
         s = s.replace(rlt.lower(), " ")
 
@@ -48,16 +48,16 @@ def parsing(t_path: str, dest: str) -> None:
     # Вводим ячейки <День Недели>, <Начало>, <Окончание>.
     # Красим их в определённый цвет, устанавливаем ширину для первых трёх столбцов таблицы:
     for j in range(1, 4):
-        ws_out.cell(row=1, column=j).value = data_columns[j - 1][0]
-        ws_out.cell(row=1, column=j).fill = fill_color(data_columns[j - 1][1])
-        ws_out.column_dimensions[columns[j - 1]].width = cwidth
+        ws_out.cell(row=1, column=j).value = DATA_COLUMNS[j - 1][0]
+        ws_out.cell(row=1, column=j).fill = fill_color(DATA_COLUMNS[j - 1][1])
+        ws_out.column_dimensions[COLUMNS[j - 1]].width = CWIDTH
 
     # Устанавливаем цвет для ячеек - названий групп.
     # Вводим названия групп в ячейки, красим их, устанавливаем ширину остальных столбцов таблицы:
     group_fill_color = fill_color('DCDCDC')
-    for j in range(4, len(groups) + 4):
-        ws_out.column_dimensions[columns[j - 1]].width = cwidth
-        ws_out.cell(row=1, column=j).value = groups[j - 4]
+    for j in range(4, len(GROUPS) + 4):
+        ws_out.column_dimensions[COLUMNS[j - 1]].width = CWIDTH
+        ws_out.cell(row=1, column=j).value = GROUPS[j - 4]
         ws_out.cell(row=1, column=j).fill = group_fill_color
 
     # Получаем ширину таблицы, из которой берётся информация:
@@ -79,7 +79,7 @@ def parsing(t_path: str, dest: str) -> None:
     for i in range(2, ws_table.max_row):
 
         # Устанавливаем высоту каждого ряда - 20px:
-        ws_out.row_dimensions[i].height = cheight
+        ws_out.row_dimensions[i].height = CHEIGHT
 
         # Получаем информацию из ячейки Cell[i][1]
         cell_i1 = ws_table.cell(row=i, column=1).value

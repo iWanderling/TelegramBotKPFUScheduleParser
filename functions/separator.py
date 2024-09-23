@@ -32,11 +32,11 @@ def separate_merges(t_path: str, dest: str) -> None:
         top_left_value = ws[d[0]].value
 
         # Создаём начальный флаг (вносим данные от крайней левой ячейки до крайней правой)
-        start = columns.index(d[0][0])
+        start = COLUMNS.index(d[0][0])
 
         # Создаём конечный флаг:
         if 'AA' not in d[1]:
-            finish = columns.index(d[1][0])
+            finish = COLUMNS.index(d[1][0])
         else:
             finish = 26
 
@@ -45,7 +45,7 @@ def separate_merges(t_path: str, dest: str) -> None:
 
         # Проходимся по каждой ячейке, вносим в неё данные
         for i in range(start, finish + 1):
-            ws[f'{columns[i]}{row}'] = top_left_value
+            ws[f'{COLUMNS[i]}{row}'] = top_left_value
 
     # Сохранение таблицы:
     wb.save(dest)

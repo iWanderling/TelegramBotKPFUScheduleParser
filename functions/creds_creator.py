@@ -1,3 +1,4 @@
+""" Создание файла Credentials.json ("creds.json"), необходимого для связи с Google-таблицами """
 import json
 import os
 

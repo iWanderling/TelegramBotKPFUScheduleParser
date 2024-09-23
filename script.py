@@ -1,11 +1,15 @@
 """ Скрипт, реализующий парсинг таблицы с расписанием и перенос обновлённой таблицы в Google Sheets """
+
+# Функции программы
 from functions.creds_creator import creds_create
 from functions.separator import separate_merges
 from functions.gsheets import gs_transfer
 from functions.parser import parsing
+
+# Зависимости
 from dotenv import load_dotenv
 from urllib import request
-from constant import link
+from constant import LINK
 from requests import get
 from flask import Flask
 from time import sleep
@@ -14,6 +18,7 @@ import logging
 import os
 
 
+# Инициализация лога, приложения Flask, загрузка переменных сред и создание таблицы Credentials.json ("creds.json")
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
 load_dotenv()
@@ -33,7 +38,7 @@ def hello_world():
 # Функция, выполняющая скрипт - парсинг:
 def do_script() -> None:
     # Загрузка таблицы:
-    request.urlretrieve(link, "tables/RawTable.xlsx")
+    request.urlretrieve(LINK, "tables/RawTable.xlsx")
 
     # Программа реализуется за счёт последовательной работы трёх функций:
     separate_merges("tables/RawTable.xlsx", "tables/PreparedTable.xlsx")
@@ -41,6 +46,7 @@ def do_script() -> None:
     gs_transfer("tables/CookedTable.xlsx")
 
 
+# Работа программы:
 if __name__ == "__main__":
     flask_thread = threading.Thread(target=run_application)
     flask_thread.start()
