@@ -22,7 +22,7 @@ creds_create()
 
 # Функция, запускающая приложение Flask:
 def run_application():
-    app.run(host="127.0.0.1", port=os.getenv("PORT"))
+    app.run(host="0.0.0.0", port=os.getenv("PORT"))
 
 
 @app.route('/')
