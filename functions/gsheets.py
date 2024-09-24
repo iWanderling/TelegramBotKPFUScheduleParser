@@ -5,7 +5,7 @@ import openpyxl
 
 # Функция для переноса Excel-таблицы в Google Sheets.
 # Строка t_path - путь к таблице.
-def gs_transfer(t_path: str) -> None:
+def gs_transfer(t_path: str, course: int) -> None:
 
     # Открытие таблицы:
     wb = openpyxl.open(t_path)
@@ -25,8 +25,8 @@ def gs_transfer(t_path: str) -> None:
     gc = gspread.service_account(filename='functions/creds.json')
 
     # Открываем таблицу Google Sheets:
-    worksheet = gc.open("KPFU_Schedule_Online").sheet1
-
+    worktable = gc.open("KPFU_Schedule_Online")
+    worksheet = worktable.worksheet(f"Курс {course}")
     # Чистим устаревшую информацию в Google Sheets, затем - обновляем её:
     worksheet.clear()
     worksheet.update(matrix, 'A1')

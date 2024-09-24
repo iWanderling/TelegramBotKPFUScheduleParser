@@ -35,7 +35,7 @@ def formating_string(s: str) -> str:
 # Функция-парсер.
 # Строка t_path - путь к таблице;
 # Строка dest - путь, по которому нужно сохранить обновлённую таблицу.
-def parsing(t_path: str, dest: str) -> None:
+def parsing(t_path: str, dest: str, course_index: int) -> None:
 
     # Создаём новую таблицу:
     wb_out = openpyxl.Workbook()
@@ -55,9 +55,9 @@ def parsing(t_path: str, dest: str) -> None:
     # Устанавливаем цвет для ячеек - названий групп.
     # Вводим названия групп в ячейки, красим их, устанавливаем ширину остальных столбцов таблицы:
     group_fill_color = fill_color('DCDCDC')
-    for j in range(4, len(GROUPS) + 4):
+    for j in range(4, len(GROUPS[course_index]) + 4):
         ws_out.column_dimensions[COLUMNS[j - 1]].width = CWIDTH
-        ws_out.cell(row=1, column=j).value = GROUPS[j - 4]
+        ws_out.cell(row=1, column=j).value = GROUPS[course_index][j - 4]
         ws_out.cell(row=1, column=j).fill = group_fill_color
 
     # Получаем ширину таблицы, из которой берётся информация:

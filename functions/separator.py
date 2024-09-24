@@ -35,10 +35,10 @@ def separate_merges(t_path: str, dest: str) -> None:
         start = COLUMNS.index(d[0][0])
 
         # Создаём конечный флаг:
-        if 'AA' not in d[1]:
+        if d[1][1].isdigit():
             finish = COLUMNS.index(d[1][0])
         else:
-            finish = 26
+            finish = COLUMNS.index(d[1][:2])
 
         # Номер ряда, на котором будут происходить изменения
         row = d[0][1:]

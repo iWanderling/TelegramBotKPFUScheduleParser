@@ -7,9 +7,10 @@ from functions.gsheets import gs_transfer
 from functions.parser import parsing
 
 # Зависимости
+from constant import SLEEP_TIME
 from dotenv import load_dotenv
 from urllib import request
-from constant import LINK
+from constant import LINKS
 from requests import get
 from flask import Flask
 from time import sleep
@@ -22,12 +23,12 @@ import os
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
 load_dotenv()
-creds_create()
+# creds_create()
 
 
 # Функция, запускающая приложение Flask:
 def run_application():
-    app.run(host="0.0.0.0", port=os.getenv("PORT"))
+    app.run(host="0.0.0.0", port=5000)  # port = os.getenv("PORT")
 
 
 @app.route('/')
@@ -37,13 +38,16 @@ def hello_world():
 
 # Функция, выполняющая скрипт - парсинг:
 def do_script() -> None:
-    # Загрузка таблицы:
-    request.urlretrieve(LINK, "tables/RawTable.xlsx")
 
-    # Программа реализуется за счёт последовательной работы трёх функций:
-    separate_merges("tables/RawTable.xlsx", "tables/PreparedTable.xlsx")
-    parsing("tables/PreparedTable.xlsx", "tables/CookedTable.xlsx")
-    gs_transfer("tables/CookedTable.xlsx")
+    for i in range(4):
+
+        # Загрузка таблицы:
+        request.urlretrieve(LINKS[i], f"tables/{i + 1}/RawTable.xlsx")
+
+        # Программа реализуется за счёт последовательной работы трёх функций:
+        separate_merges(f"tables/{i + 1}/RawTable.xlsx", f"tables/{i + 1}/PreparedTable.xlsx")
+        parsing(f"tables/{i + 1}/PreparedTable.xlsx", f"tables/{i + 1}/CookedTable.xlsx", i)
+        gs_transfer(f"tables/{i + 1}/CookedTable.xlsx", i + 1)
 
 
 # Работа программы:
@@ -52,13 +56,11 @@ if __name__ == "__main__":
     flask_thread.start()
 
     while True:
-        try:
-            logger.warning("Starting to do script...")
-            do_script()
-            logger.warning("✔️ Table updates successfully... ✔️")
-            req = get("https://telegrambotkpfuscheduleparser.onrender.com")
-            logger.warning("✔️ Request has done... ✔️")
-        except Exception as e:
-            logger.warning(f"❌ ERROR: {e} ❌")
 
-        sleep(600)
+        logger.warning("Starting to do script...")
+        do_script()
+        logger.warning("✔️ Table updates successfully... ✔️")
+        req = get("https://telegrambotkpfuscheduleparser.onrender.com")
+        logger.warning("✔️ Request has done... ✔️")
+
+        sleep(SLEEP_TIME)
