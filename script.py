@@ -8,7 +8,7 @@ from functions.gsheets import gs_transfer  # Загрузка таблицы с 
 
 
 # Зависимости:
-from constant import SLEEP_TIME, LINKS  # Переменная, обозначающая время перерыва и список ссылок на загрузку таблиц
+from constant import *  # Переменные, использующиеся при работе
 from dotenv import load_dotenv  # Загрузка переменных сред
 from logging import getLogger  # Создание логирования
 from threading import Thread  # Добавление многопоточности
@@ -29,25 +29,25 @@ load_dotenv()
 
 # Функция, запускающая приложение Flask (ВЕБ-сервер):
 def run_application():
-    app.run(host="0.0.0.0", port=5000)  # port = os.getenv("PORT")
+    app.run(host=WEB_HOST, port=5000)  # port = os.getenv("PORT")
 
 
 # Главная страница сайта ВЕБ-сервера:
 @app.route('/')
 def hello_world():
-    return 'Wake Up! You must work!'
+    return HELLO_MESSAGE
 
 
 # Функция, выполняющая скрипт - парсинг:
 def do_script() -> None:
     for i in range(4):
         # Загрузка таблицы:
-        request.urlretrieve(LINKS[i], f"tables/{i + 1}/RawTable.xlsx")
+        request.urlretrieve(LINKS[i], f"tables/{i + 1}/{RAW_TABLE}")
 
         # Программа реализуется за счёт последовательной работы трёх функций:
-        separate_merges(f"tables/{i + 1}/RawTable.xlsx", f"tables/{i + 1}/PreparedTable.xlsx")
-        parsing(f"tables/{i + 1}/PreparedTable.xlsx", f"tables/{i + 1}/CookedTable.xlsx", i)
-        gs_transfer(f"tables/{i + 1}/CookedTable.xlsx", i + 1)
+        separate_merges(f"tables/{i + 1}/{RAW_TABLE}", f"tables/{i + 1}/{MEDIUM_TABLE}")
+        parsing(f"tables/{i + 1}/{MEDIUM_TABLE}", f"tables/{i + 1}/{DONE_TABLE}", i)
+        gs_transfer(f"tables/{i + 1}/{DONE_TABLE}", i + 1)
 
 
 # Работа программы:
@@ -64,7 +64,7 @@ if __name__ == "__main__":
             logger.warning("✔️ Table updates successfully... ✔️")
 
             # Посылка GET-запроса (будим засыпающий хостинг):
-            req = get("https://telegrambotkpfuscheduleparser.onrender.com")
+            req = get(SITE_TITLE)
             logger.warning("✔️ Request has done... ✔️")
 
             # Перерыв:

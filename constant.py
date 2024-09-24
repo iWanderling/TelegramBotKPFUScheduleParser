@@ -53,3 +53,20 @@ SLEEP_TIME = 600
 # Коды цветов:
 LIGHT_GRAY = "DCDCDC"
 BEIGE = "FFEBCD"
+
+# Название таблицы Google Sheets:
+GSHEETS_TITLE = "KPFU_Schedule_Online"
+
+# Названия этапов готовности таблиц:
+RAW_TABLE = "RawTable.xlsx"
+MEDIUM_TABLE = "PreparedTable.xlsx"
+DONE_TABLE = "CookedTable.xlsx"
+
+# Хост:
+WEB_HOST = "0.0.0.0"
+
+# Текст на главной странице сайта:
+HELLO_MESSAGE = 'Wake Up! You must work!'
+
+# Сайт:
+SITE_TITLE = "https://telegrambotkpfuscheduleparser.onrender.com"

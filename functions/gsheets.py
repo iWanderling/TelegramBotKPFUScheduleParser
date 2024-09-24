@@ -1,17 +1,19 @@
 """ Копирование таблицы формата XLSX в таблицу Google Sheets """
-import gspread
+from constant import GSHEETS_TITLE
 import openpyxl
+import gspread
 
 
 # Функция для переноса Excel-таблицы в Google Sheets.
-# Строка t_path - путь к таблице.
-def gs_transfer(t_path: str, course: int) -> None:
+# Table_path - путь к таблице, которую нужно обработать.
+# Course - номер курса. Используется при внесении данных в листы таблицы ("Курс [course]"):
+def gs_transfer(table_path: str, course: int) -> None:
 
     # Открытие таблицы:
-    wb = openpyxl.open(t_path)
+    wb = openpyxl.open(table_path)
     ws = wb.active
 
-    # Матрица с данными таблицы:
+    # Создание матрицы с данными таблицы:
     matrix = []
 
     # Сохраняем значение каждой ячейки таблицы в матрицу:
@@ -25,8 +27,9 @@ def gs_transfer(t_path: str, course: int) -> None:
     gc = gspread.service_account(filename='functions/creds.json')
 
     # Открываем таблицу Google Sheets:
-    worktable = gc.open("KPFU_Schedule_Online")
+    worktable = gc.open(GSHEETS_TITLE)
     worksheet = worktable.worksheet(f"Курс {course}")
-    # Чистим устаревшую информацию в Google Sheets, затем - обновляем её:
+
+    # Чистим устаревшую информацию в Google Sheets. Затем - обновляем:
     worksheet.clear()
     worksheet.update(matrix, 'A1')
