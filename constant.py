@@ -65,8 +65,8 @@ DONE_TABLE = "CookedTable.xlsx"
 # Хост:
 WEB_HOST = "0.0.0.0"
 
-# Текст на главной странице сайта:
-HELLO_MESSAGE = 'Wake Up! You must work!'
-
 # Сайт:
 SITE_TITLE = "https://telegrambotkpfuscheduleparser.onrender.com"
+
+# Текст на главной странице сайта:
+HELLO_MESSAGE = 'Wake Up! You must work!'
