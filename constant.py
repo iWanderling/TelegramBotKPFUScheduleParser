@@ -49,3 +49,7 @@ CHEIGHT = 80
 
 # Время перерыва работы скрипта (в секундах)
 SLEEP_TIME = 600
+
+# Коды цветов:
+LIGHT_GRAY = "DCDCDC"
+BEIGE = "FFEBCD"
