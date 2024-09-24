@@ -51,7 +51,7 @@ def do_script() -> None:
         gs_transfer(f"tables/{i + 1}/{DONE_TABLE}", i + 1)
 
 
-# Работа программы:
+# Реализация работы программы:
 if __name__ == "__main__":
     # Создание отдельного потока для работы ВЕБ-сервера и его запуск:
     flask_thread = Thread(target=run_application)
