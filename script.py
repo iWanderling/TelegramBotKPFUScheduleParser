@@ -10,18 +10,18 @@ from functions.gsheets import gs_transfer  # Загрузка таблицы с 
 # Зависимости:
 from constant import SLEEP_TIME, LINKS  # Переменная, обозначающая время перерыва и список ссылок на загрузку таблиц
 from dotenv import load_dotenv  # Загрузка переменных сред
+from logging import getLogger  # Создание логирования
+from threading import Thread  # Добавление многопоточности
 from urllib import request  # Загрузка таблицы
 from requests import get  # Посылка GET-запроса на сайт проекта для его непрерывной работы
 from flask import Flask  # Создание ВЕБ-сервера
 from time import sleep  # Функция для создания перерыва работы программы
-import threading  # Добавление многопоточности
-import logging  # Создание логирования
 import os  # Получение переменных сред
 
 
 # Инициализация лога, приложения Flask, загрузка переменных сред и
 # создание таблицы Credentials.json ("creds.json"):
-logger = logging.getLogger(__name__)
+logger = getLogger(__name__)
 app = Flask(__name__)
 load_dotenv()
 # creds_create()
@@ -53,7 +53,7 @@ def do_script() -> None:
 # Работа программы:
 if __name__ == "__main__":
     # Создание отдельного потока для работы ВЕБ-сервера и его запуск:
-    flask_thread = threading.Thread(target=run_application)
+    flask_thread = Thread(target=run_application)
     flask_thread.start()
 
     # Цикл, выполняющий скрипт с периодичностью SLEEP_TIME (в секундах):
