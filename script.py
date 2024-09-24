@@ -24,12 +24,12 @@ import os  # Получение переменных сред
 logger = getLogger(__name__)
 app = Flask(__name__)
 load_dotenv()
-# creds_create()
+creds_create()
 
 
 # Функция, запускающая приложение Flask (ВЕБ-сервер):
 def run_application():
-    app.run(host=WEB_HOST, port=5000)  # port = os.getenv("PORT")
+    app.run(host=WEB_HOST, port=os.getenv("PORT"))
 
 
 # Главная страница сайта ВЕБ-сервера:
@@ -40,6 +40,7 @@ def hello_world():
 
 # Функция, выполняющая скрипт - парсинг:
 def do_script() -> None:
+    # Пробегаемся по таблице каждого курса, парсим, сохраняем её и загружаем в Google Sheets:
     for i in range(4):
         # Загрузка таблицы:
         request.urlretrieve(LINKS[i], f"tables/{i + 1}/{RAW_TABLE}")
