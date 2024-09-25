@@ -32,7 +32,6 @@ def formating_string(string: str) -> str:
             while w[0].lower() != "h":
                 w = w[1:]
             links.append(w)
-            print(w)
         else:
             text.append(w)
 
