@@ -59,16 +59,21 @@ if __name__ == "__main__":
 
     # Цикл, выполняющий скрипт с периодичностью SLEEP_TIME (в секундах):
     while True:
+
+        # Выполнение скрипта:
         try:
             logger.warning("Starting to do script...")
             do_script()  # Выполнение скрипта
             logger.warning("✔️ Table updates successfully... ✔️")
+        except Exception as e:
+            logger.warning(f"❌ ERROR WHILE DOING A SCRIPT: {e} ❌")
 
-            # Посылка GET-запроса (будим засыпающий хостинг):
+        # Посылка GET-запроса (будим засыпающий хостинг):
+        try:
             req = get(SITE_TITLE)
             logger.warning("✔️ Request has done... ✔️")
-
-            # Перерыв:
-            sleep(SLEEP_TIME)
         except Exception as e:
-            logger.warning(f"❌ ERROR: {e} ❌")
+            logger.warning(f"❌ ERROR WHILE SENDING REQUEST TO SERVER: {e} ❌")
+
+        # Перерыв:
+        sleep(SLEEP_TIME)
